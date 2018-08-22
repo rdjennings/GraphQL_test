@@ -9,7 +9,12 @@ import App from './App'
 
 const client = new ApolloClient({
 	link: new HttpLink({uri: 'http://localhost:3020/graphql'}),
-	cache: new InMemoryCache()
+	cache: new InMemoryCache({
+		dataIdFromObject: object => {
+			console.log('OID', object.__typename + '_' + object.id)
+			return object.__typename + '_' + object.id
+		}
+	})
 })
 
 ReactDOM.render(

@@ -13,31 +13,32 @@ const QUERY_POSTS = gql`
 `
 
 class Display extends Component {
-	render() {
-		const { loading, error, posts } = this.props.allPostsQuery
-		posts && console.log('Posts from counters:', posts)
+  render () {
+    const { loading, error, posts } = this.props.allPostsQuery
+    // posts && console.log('Posts from counters:', posts)
 
-		return (
-			<span>
-				{error && !loading && (
-					<span>
-						Error: {error.message}
-					</span>
-				)}
-				{!error && loading && (
-					<span>
-						Loading...
-					</span>
-				)}
-
-				{!error && !loading && (
-					<span>
-						Count: {posts.length}
-					</span>
-				)}
-			</span>
-		)
-	}
+    if (loading) {
+      return (
+        <span>
+          Loading...
+        </span>
+      )
+    }
+    if (error && error !== undefined) {
+      return (
+        <span>
+          Error: {error.message}
+        </span>
+      )
+    }
+    return (
+      <span>
+          Count: {posts ? posts.length : 0}
+      </span>
+    )
+  }
 }
 
-export default graphql(QUERY_POSTS, {name: 'allPostsQuery'})(Display)
+export default compose(
+  graphql(QUERY_POSTS, {name: 'allPostsQuery'})
+)(Display)

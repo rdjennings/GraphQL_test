@@ -1,3 +1,6 @@
+const { addMockFunctionsToSchema, MockList } = require('graphql-tools')
+const casual = require('casual')
+
 const {
 	GraphQLObjectType,
 	GraphQLString,
@@ -56,7 +59,15 @@ const MutationType = new GraphQLObjectType({
         id: { type: new GraphQLNonNull(GraphQLInt) }
       },
 			resolve: (_, args, { db }) => {
-				return db.queryAsync(`delete from Post where id = ${args.id}`).then(() => args)
+				return db.queryAsync(`delete from Post where id = ${args.id}`)
+  			.then(() => {
+  				let i
+  				let j = 0
+  				for (i = 0; i < 1000000000; i++) {
+  					j++
+  				}
+  				return args
+  			})
 			}
     },
     addPost: {
@@ -70,7 +81,14 @@ const MutationType = new GraphQLObjectType({
     	},
     	resolve: (root, args, { db }) => {
     		return db.queryAsync(`insert into Post values ('${args.id}', '${args.title}', '${args.content}', '${args.author}')`)
-    			.then(() => args)
+    			.then(() => {
+    				let i
+    				let j = 0
+    				for (i = 0; i < 1000000000; i++) {
+    					j++
+    				}
+    				return args
+    			})
     	}
     },
     updatePost: {
@@ -90,9 +108,29 @@ const MutationType = new GraphQLObjectType({
   }
 });
 
-const Schema = new GraphQLSchema({
+const schema = new GraphQLSchema({
 	query: QueryType,
 	mutation: MutationType
 })
 
-module.exports = Schema;
+/* addMockFunctionsToSchema({schema, mocks: {
+	Int: () => casual.integer(1, 10),
+	String: () => casual.string,
+	Post: () => ({
+		id: casual.integer(1, 100),
+		author: casual.integer(1, 2)
+	}),
+	Person: () => ({
+		id: casual.integer,
+		firstName: casual.first_name,
+		lastName: casual.last_name,
+		email: casual.email,
+		posts: () => new MockList([2, 5])
+	}),
+	RootQuery: () => ({
+		posts: () => new MockList(5),
+		people: () =>  new MockList([2, 5])
+	})
+}, preserveResolvers: true}) */
+
+module.exports = schema;
