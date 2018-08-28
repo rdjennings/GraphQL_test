@@ -15,14 +15,12 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) {
-    /* eslint-disable */
+    /* eslint-disable-next-line */
     console.log(`Caught err: ${err}`)
-    /* eslint-enable */
     throw err
   }
-  /* eslint-disable */
+  /* eslint-disable-next-line */
   console.log('You are now connected ...')
-  /* eslint-enable */
   const db = Bluebird.promisifyAll(connection)
 
   app.use(cors())
@@ -38,9 +36,8 @@ const APP_PORT = 3020
 const app = Express()
 
 const server = app.listen(APP_PORT, () => {
-  /* eslint-disable */
+  /* eslint-disable-next-line */
   console.log(`App listening on port ${APP_PORT}`)
-  /* eslint-enable */
 })
 
 server.timeout = 0
