@@ -1,10 +1,10 @@
 // Strict mode
 'use strict'
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webpack = require('webpack')
 const path = require('path')
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
       inject: 'body'
     }),
     new webpack.ProvidePlugin({
-/*      Vel: 'velocity-animate',
+      /* Vel: 'velocity-animate',
       $: 'jQuery',
       jQuery: 'jQuery' */
     }),
@@ -37,25 +37,25 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: './src/static' }
     ]),
-    new ExtractTextPlugin("styles.css")
- /*   new DashboardPlugin({ port: 8088 }) */
+    new ExtractTextPlugin('styles.css')
+    /* new DashboardPlugin({ port: 8088 }) */
   ],
-  devtool: "inline-source-map",
+  devtool: 'inline-source-map',
   devServer: { inline: true },
   module: {
     rules: [
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
+          fallback: 'style-loader',
+          use: 'css-loader'
         })
       },
       {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          //resolve-url-loader may be chained before sass-loader if necessary 
+          // resolve-url-loader may be chained before sass-loader if necessary
           use: ['css-loader', 'sass-loader']
         })
       },
@@ -87,7 +87,7 @@ module.exports = {
         test: /\.js?$/,
         include: '/_js/',
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'babel-loader'
       },
       {
         test: /\.js?$/,
